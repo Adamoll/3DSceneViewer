@@ -259,8 +259,8 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
             Pbl.multiplyByMatrix(toScreenMatrix);
             Pbr.multiplyByMatrix(toScreenMatrix);
 
-            Vertex light = new Vertex(Frame.lighting.x, Frame.lighting.y, Frame.lighting.z);
-            light.multiplyByMatrix(toScreenMatrix);
+            //Vertex light = new Vertex(Frame.lighting.x, Frame.lighting.y, Frame.lighting.z);
+            //light.multiplyByMatrix(toScreenMatrix);
 
             Frame.camera.eye.multiplyByMatrix(toScreenMatrix);
             Frame.camera.lookAt.multiplyByMatrix(toScreenMatrix);

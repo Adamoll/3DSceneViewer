@@ -119,7 +119,6 @@ public class OptionPanel extends JPanel implements ActionListener, ChangeListene
 
         
         path = "scene files\\";
-        objectName = "object.txt";
         cameraName = "camera.txt";
     }
     
@@ -190,45 +189,46 @@ public class OptionPanel extends JPanel implements ActionListener, ChangeListene
             double r = Double.parseDouble(surfElements[1]);
             double g = Double.parseDouble(surfElements[2]);
             double b = Double.parseDouble(surfElements[3]);
-            lines = buff.readLine();
-            surfElements = lines.split(" ");
-            double kdr = Double.parseDouble(surfElements[1]);
-            double kdg = Double.parseDouble(surfElements[2]);
-            double kdb = Double.parseDouble(surfElements[3]);
-            
-            lines = buff.readLine();
-            surfElements = lines.split(" ");
-            double ksr = Double.parseDouble(surfElements[1]);
-            double ksg = Double.parseDouble(surfElements[2]);
-            double ksb = Double.parseDouble(surfElements[3]);
-            
-            lines = buff.readLine();
-            surfElements = lines.split(" ");
-            double kar = Double.parseDouble(surfElements[1]);
-            double kag = Double.parseDouble(surfElements[2]);
-            double kab = Double.parseDouble(surfElements[3]);
-            
-            lines = buff.readLine();
-            surfElements = lines.split(" ");
-            double gp = Double.parseDouble(surfElements[1]);
+            //TODO add Phone reflection model elements
+//            lines = buff.readLine();
+//            surfElements = lines.split(" ");
+//            double kdr = Double.parseDouble(surfElements[1]);
+//            double kdg = Double.parseDouble(surfElements[2]);
+//            double kdb = Double.parseDouble(surfElements[3]);
+//
+//            lines = buff.readLine();
+//            surfElements = lines.split(" ");
+//            double ksr = Double.parseDouble(surfElements[1]);
+//            double ksg = Double.parseDouble(surfElements[2]);
+//            double ksb = Double.parseDouble(surfElements[3]);
+//
+//            lines = buff.readLine();
+//            surfElements = lines.split(" ");
+//            double kar = Double.parseDouble(surfElements[1]);
+//            double kag = Double.parseDouble(surfElements[2]);
+//            double kab = Double.parseDouble(surfElements[3]);
+//
+//            lines = buff.readLine();
+//            surfElements = lines.split(" ");
+//            double gp = Double.parseDouble(surfElements[1]);
 
-            Frame.surfaces[i] = new SurfaceModel(r, g, b, new Vertex(kdr, kdg, kdb), 
-                    new Vertex(ksr, ksg, ksb), new Vertex(kar, kag, kab), gp);
+            Frame.surfaces[i] = new SurfaceModel(r, g, b, new Vertex(0, 0, 0),
+                    new Vertex(0, 0, 0), new Vertex(0, 0, 0), 0);
         }
-        
-        String illumination = buff.readLine();
-        while (illumination.equals("") || illumination.contains("//") || illumination.contains("/"))
-        {
-            illumination = buff.readLine();
-        }
-        String[] illuminationElements = illumination.split(" ");
-        double x = Double.parseDouble(illuminationElements[0]);
-        double y = Double.parseDouble(illuminationElements[1]);
-        double z = Double.parseDouble(illuminationElements[2]);
-        double R = Double.parseDouble(illuminationElements[3]);
-        double G = Double.parseDouble(illuminationElements[4]);
-        double B = Double.parseDouble(illuminationElements[5]);
-        Frame.lighting = new Illumination(x, y, z, R, G, B);
+        //TODO read light sources
+//        String illumination = buff.readLine();
+//        while (illumination.equals("") || illumination.contains("//") || illumination.contains("/"))
+//        {
+//            illumination = buff.readLine();
+//        }
+//        String[] illuminationElements = illumination.split(" ");
+//        double x = Double.parseDouble(illuminationElements[0]);
+//        double y = Double.parseDouble(illuminationElements[1]);
+//        double z = Double.parseDouble(illuminationElements[2]);
+//        double R = Double.parseDouble(illuminationElements[3]);
+//        double G = Double.parseDouble(illuminationElements[4]);
+//        double B = Double.parseDouble(illuminationElements[5]);
+//        Frame.lighting = new Illumination(x, y, z, R, G, B);
         buff.close();
         ViewPanel.ort1.repaint();
         ViewPanel.ort2.repaint();

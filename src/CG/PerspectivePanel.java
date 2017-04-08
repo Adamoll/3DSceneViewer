@@ -250,13 +250,13 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
                 Frame.vertexes[i].multiplyByMatrixT(windowSizeScale);
             }
             
-            Vertex lightPos = new Vertex(Frame.lighting.x, Frame.lighting.y, Frame.lighting.z);
-            lightPos.multiplyByMatrix(cameraTransformMatrix);
-            lightPos.multiplyByMatrix(perspectiveProjectionMatrix);
-            lightPos.x /= lightPos.z;
-            lightPos.y /= lightPos.z;
-            lightPos.multiplyByMatrix(viewportMatrix);
-            lightPos.multiplyByMatrix(windowSizeScale);
+//            Vertex lightPos = new Vertex(Frame.lighting.x, Frame.lighting.y, Frame.lighting.z);
+//            lightPos.multiplyByMatrix(cameraTransformMatrix);
+//            lightPos.multiplyByMatrix(perspectiveProjectionMatrix);
+//            lightPos.x /= lightPos.z;
+//            lightPos.y /= lightPos.z;
+//            lightPos.multiplyByMatrix(viewportMatrix);
+//            lightPos.multiplyByMatrix(windowSizeScale);
             if (Frame.showSurfaces) {
                 zBufer = new double[screenHeight][screenWidth];
                 colorBuffer = new double[screenHeight][screenWidth];
