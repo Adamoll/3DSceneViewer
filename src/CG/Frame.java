@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Frame extends JFrame{
+public class Frame extends JFrame {
     JFrame frame;
     static Vertex[] vertexes;
     static Triangle[] triangles;
@@ -12,14 +12,12 @@ public class Frame extends JFrame{
     static Illumination lighting;
     static Camera camera;
     static boolean showWireFrame;
-    static boolean showSurfaces;
+    public static boolean showSurfaces;
     static int backgroundColor;
     public static FileDialog fileDialog;
 
-
-    Frame()
-    {
-        frame = new JFrame("Okno");
+    Frame() {
+        frame = new JFrame("3D scene viewer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(850, 600);
         FramePanel framepanel = new FramePanel();
@@ -31,15 +29,15 @@ public class Frame extends JFrame{
 
         fileDialog = new FileDialog(this, "Choose scene", FileDialog.LOAD);
 
-        showWireFrame = false;
-        showSurfaces = true;
+        showWireFrame = true;
+        showSurfaces = false;
         backgroundColor = 13158600;
-        
     }
+
     public static void main(String[] args) {
         Frame f = new Frame();
     }
-    
+
     public static double[][] multiplyMatrices(double[][] tab1, double[][] tab2) {
         double[][] macierzPomnozona = new double[tab1.length][tab2[0].length];
         if (tab1[0].length == tab2.length) {
@@ -57,9 +55,7 @@ public class Frame extends JFrame{
         }
         return macierzPomnozona;
     }
-    
-    
-    
+
     public static double[][] invert(double a[][]) {
 
         int n = a.length;
@@ -80,7 +76,6 @@ public class Frame extends JFrame{
                 }
             }
         }
-
         // Perform backward substitutions
         for (int i = 0; i < n; ++i) {
 
@@ -96,8 +91,8 @@ public class Frame extends JFrame{
         return x;
     }
 
-// Method to carry out the partial-pivoting Gaussian
-// elimination.  Here index[] stores pivoting order.
+    // Method to carry out the partial-pivoting Gaussian
+    // elimination.  Here index[] stores pivoting order.
     public static void gaussian(double a[][], int index[]) {
         int n = index.length;
         double c[] = new double[n];
@@ -148,30 +143,26 @@ public class Frame extends JFrame{
             }
         }
     }
-    
-    public static double[][] copyMatrix(double[][] m)
-    {
+
+    public static double[][] copyMatrix(double[][] m) {
         double[][] temp = new double[m.length][];
-        for(int i = 0 ; i < m.length; i ++)
-        {
+        for (int i = 0; i < m.length; i++) {
             temp[i] = new double[m[i].length];
-            for(int j = 0; j < m[i].length; j++)
-            {
+            for (int j = 0; j < m[i].length; j++) {
                 temp[i][j] = m[i][j];
             }
         }
         return temp;
     }
-    
-    
+
+
     static int int2RGB(int R, int G, int B) {
         R = R & 0x000000FF;
         G = G & 0x000000FF;
         B = B & 0x000000FF;
-
         return (R << 16) + (G << 8) + B;
     }
-    
+
     static public Vertex crossProduct(Vertex v1, Vertex v2) {
         Vertex result = new Vertex();
         result.x = v1.y * v2.z - v1.z * v2.y;
@@ -188,28 +179,25 @@ public class Frame extends JFrame{
         result.z = v.z / length;
         return result;
     }
-    
-    static double dot(Vertex v1, Vertex v2){
+
+    static double dot(Vertex v1, Vertex v2) {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-        
     }
-    
 }
 
-class FramePanel extends JPanel
-{
+class FramePanel extends JPanel {
     GridBagLayout mainLayout;
     GridBagConstraints gbc;
     ViewPanel viewPanel;
     OptionPanel optionPanel;
+
     public FramePanel() {
         viewPanel = new ViewPanel();
         optionPanel = new OptionPanel();
-        
         mainLayout = new GridBagLayout();
         setLayout(mainLayout);
-        gbc = new GridBagConstraints();
 
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
@@ -217,22 +205,20 @@ class FramePanel extends JPanel
         gbc.weightx = 0.95;
         gbc.weighty = 1;
         add(viewPanel, gbc);
-        gbc.gridx ++;
+        gbc.gridx++;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 0.05;
         add(optionPanel, gbc);
-        
     }
 }
-    
-class ViewPanel extends JPanel {
 
+class ViewPanel extends JPanel {
     GridBagLayout mainLayout;
     GridBagConstraints gbc;
     static OrthogonalPanel ort1;
     static OrthogonalPanel ort2;
     static OrthogonalPanel ort3;
-    static PerspectivePanel  persp;
+    static PerspectivePanel persp;
 
     ViewPanel() {
         ort1 = new OrthogonalPanel("xy");
@@ -268,9 +254,5 @@ class ViewPanel extends JPanel {
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.CENTER;
         add(persp, gbc);
-
     }
-    
-    
-
 }

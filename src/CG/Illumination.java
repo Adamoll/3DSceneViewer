@@ -16,6 +16,4 @@ public class Illumination {
         this.G = G;
         this.B = B;
     }
-    
-    
 }

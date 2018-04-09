@@ -6,6 +6,9 @@ public class Vertex {
     double z, zT, zTT;
     double w, wT, wTT;
 
+    Vertex() {
+    }
+
     Vertex(double x, double y, double z) {
         this.x = x;
         this.y = y;
@@ -20,13 +23,11 @@ public class Vertex {
         yTT = y;
         zTT = z;
     }
-    Vertex(){};
-    
-    Vertex(Vertex v)
-    {
+
+    Vertex(Vertex v) {
         this(v.x, v.y, v.z);
     }
-    
+
     public void multiplyByMatrix(double[][] tab2) {
         double[][] tab1 = {{x, y, z, w}};
         double[][] macierzPomnozona = new double[tab1.length][tab2[0].length];
@@ -44,11 +45,11 @@ public class Vertex {
             throw new RuntimeException("Podane tablice mają niewłasciwe wymiary");
         }
         x = macierzPomnozona[0][0];
-        y = macierzPomnozona[0][1] ;
+        y = macierzPomnozona[0][1];
         z = macierzPomnozona[0][2];
     }
-    
-   public void multiplyByMatrixT(double[][] tab2) {
+
+    public void multiplyByMatrixT(double[][] tab2) {
         double[][] tab1 = {{xT, yT, zT, wT}};
         double[][] macierzPomnozona = new double[tab1.length][tab2[0].length];
         if (tab1[0].length == tab2.length) {
@@ -65,27 +66,23 @@ public class Vertex {
             throw new RuntimeException("Podane tablice mają niewłasciwe wymiary");
         }
         xT = macierzPomnozona[0][0];
-        yT = macierzPomnozona[0][1] ;
+        yT = macierzPomnozona[0][1];
         zT = macierzPomnozona[0][2];
     }
-   
-   public void multiplyByScalar(double scalar)
-   {
-       x *= scalar;
-       y *= scalar;
-       z *= scalar;
-   }
-   
-   public void addVector(Vertex v)
-   {
-       x += v.x;
-       y += v.y;
-       z += v.z;
-   }
-   
-   public double length()
-   {
-       return Math.sqrt(x*x + y * y + z * z);
-   }
-   
+
+    public void multiplyByScalar(double scalar) {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+    }
+
+    public void addVector(Vertex v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+    }
+
+    public double length() {
+        return Math.sqrt(x * x + y * y + z * z);
+    }
 }

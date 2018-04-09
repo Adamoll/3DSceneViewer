@@ -12,10 +12,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
-import javax.swing.text.View;
 
 public class OrthogonalPanel extends JPanel implements ComponentListener, MouseListener, MouseMotionListener {
-
     double[][] orthogonalMatrix;
     int screenWidth;
     int screenHeight;
@@ -33,7 +31,6 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
     double[][] zBufer;
     double[][] colorBuffer;
     double[][] scaleByHalf;
-    double[][] oldInverted;
     double aspect;
     static Triangle[] triangles;
     static Camera camera;
@@ -224,6 +221,11 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
         }
     }
 
+    public double length(Camera c) {
+        return Math.sqrt((c.lookAt.x - c.eye.x) * (c.lookAt.x - c.eye.x)
+                + (c.lookAt.y - c.eye.y) * (c.lookAt.y - c.eye.y) + (c.lookAt.z - c.eye.z) * (c.lookAt.z - c.eye.z));
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -233,7 +235,6 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
                 Frame.vertexes[i].x = Frame.vertexes[i].xTT;
                 Frame.vertexes[i].y = Frame.vertexes[i].yTT;
                 Frame.vertexes[i].z = Frame.vertexes[i].zTT;
-//                Frame.vertexes[i].multiplyByMatrix(invertedToScreenMatrix);
                 Frame.vertexes[i].multiplyByMatrix(toScreenMatrix);
             }
             Frame.camera.resetCoords();
@@ -258,9 +259,6 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
             Ptr.multiplyByMatrix(toScreenMatrix);
             Pbl.multiplyByMatrix(toScreenMatrix);
             Pbr.multiplyByMatrix(toScreenMatrix);
-
-            //Vertex light = new Vertex(Frame.lighting.x, Frame.lighting.y, Frame.lighting.z);
-            //light.multiplyByMatrix(toScreenMatrix);
 
             Frame.camera.eye.multiplyByMatrix(toScreenMatrix);
             Frame.camera.lookAt.multiplyByMatrix(toScreenMatrix);
@@ -549,22 +547,6 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
     }
 
     @Override
-    public void componentMoved(ComponentEvent e) {
-    }
-
-    @Override
-    public void componentShown(ComponentEvent e) {
-    }
-
-    @Override
-    public void componentHidden(ComponentEvent e) {
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
     public void mousePressed(MouseEvent e) {
         Point p = e.getPoint();
         if (OptionPanel.objectLoaded) {
@@ -594,14 +576,6 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
     public void mouseReleased(MouseEvent e) {
         posClicked = false;
         eyeClicked = false;
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 
     @Override
@@ -647,12 +621,30 @@ public class OrthogonalPanel extends JPanel implements ComponentListener, MouseL
     }
 
     @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 
-    public double length(Camera c) {
+    @Override
+    public void componentMoved(ComponentEvent e) {
+    }
 
-        return Math.sqrt((c.lookAt.x - c.eye.x) * (c.lookAt.x - c.eye.x)
-                + (c.lookAt.y - c.eye.y) * (c.lookAt.y - c.eye.y) + (c.lookAt.z - c.eye.z) * (c.lookAt.z - c.eye.z));
+    @Override
+    public void componentShown(ComponentEvent e) {
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
     }
 }

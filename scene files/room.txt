@@ -906,7 +906,7 @@ points_count 903
 3 0 -2.2
 
 
-// trójk¹ty
+// trï¿½jkï¿½ty
 triangles_count 1032
 0 2 1
 0 3 2
@@ -1963,5 +1963,5 @@ rgb 0.823529 0.784314 0.764706
 rgb 0.65098 0.505882 0.345098
 rgb 0.65098 0.505882 0.345098
 
-//pozycja oraz barwa punktowego œwiat³a
+//pozycja oraz barwa punktowego swiatla
 1 2 3 0 1 0

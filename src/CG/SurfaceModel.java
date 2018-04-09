@@ -17,8 +17,5 @@ public class SurfaceModel {
         this.ks = ks;
         this.ka = ka;
         this.gp = gg;
-        
     }
-    
-    
 }

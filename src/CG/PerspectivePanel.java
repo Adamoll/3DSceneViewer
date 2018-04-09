@@ -14,10 +14,7 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
     static double[][] translateOfOrgin;
     static double[][] reflexYAxis;
     static double[][] scale;
-    static double[][] toScreenSpaceMatrix;
-    static double[][] inversedToScreenSpaceMatrix;
     static double[][] viewportMatrix;
-    static double[][] perspectiveDivideMatrix;
     static double[][] translationOfCamera;
     double[][] windowSizeScale;
     double[][] zBufer;
@@ -53,30 +50,30 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
         ptk001 = new Vertex(0, 0, 1);
 
         translateOfOrgin = new double[][]{
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {0.5, 0.5, 0.5, 1}
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0.5, 0.5, 0.5, 1}
         };
 
         reflexYAxis = new double[][]{
-            {1, 0, 0, 0},
-            {0, -1, 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1}
+                {1, 0, 0, 0},
+                {0, -1, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
         };
         scale = new double[][]{
-            {0.5, 0, 0, 0},
-            {0, 0.5, 0, 0},
-            {0, 0, 0.5, 0},
-            {0, 0, 0, 1}
+                {0.5, 0, 0, 0},
+                {0, 0.5, 0, 0},
+                {0, 0, 0.5, 0},
+                {0, 0, 0, 1}
         };
 
         windowSizeScale = new double[][]{
-            {screenWidth, 0, 0, 0},
-            {0, screenHeight, 0, 0},
-            {0, 0, screenHeight, 0},
-            {0, 0, 0, 1}
+                {screenWidth, 0, 0, 0},
+                {0, screenHeight, 0, 0},
+                {0, 0, screenHeight, 0},
+                {0, 0, 0, 1}
         };
 
         viewportMatrix = Frame.multiplyMatrices(reflexYAxis, scale);
@@ -87,10 +84,10 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
     public void setPerspectiveMatrix() {
         if (OptionPanel.objectLoaded) {
             perspectiveProjectionMatrix = new double[][]{
-                {cot(camera.fov / 2) / aspect, 0, 0, 0},
-                {0, cot(camera.fov / 2), 0, 0},
-                {0, 0, -(znear + zfar) / (zfar - znear), 1},
-                {0, 0, (2*zfar * znear) / (zfar - znear), 0}
+                    {cot(camera.fov / 2) / aspect, 0, 0, 0},
+                    {0, cot(camera.fov / 2), 0, 0},
+                    {0, 0, -(znear + zfar) / (zfar - znear), 1},
+                    {0, 0, (2 * zfar * znear) / (zfar - znear), 0}
             };
             transformCamera();
         }
@@ -100,20 +97,20 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
         if (OptionPanel.objectLoaded) {
 
             translationOfCamera = new double[][]{
-                {1, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 0, 1, 0},
-                {-camera.eye.xT, -camera.eye.yT, -camera.eye.zT, 1}
-            };            
-            
+                    {1, 0, 0, 0},
+                    {0, 1, 0, 0},
+                    {0, 0, 1, 0},
+                    {-camera.eye.xT, -camera.eye.yT, -camera.eye.zT, 1}
+            };
+
             double katoz = Math.toRadians(camera.twistAngle);
             double[][] ozrotate = {
-                {Math.cos(katoz), -Math.sin(katoz), 0, 0},
-                {Math.sin(katoz), Math.cos(katoz), 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
+                    {Math.cos(katoz), -Math.sin(katoz), 0, 0},
+                    {Math.sin(katoz), Math.cos(katoz), 0, 0},
+                    {0, 0, 1, 0},
+                    {0, 0, 0, 1}
             };
-            
+
             Vertex upVec = new Vertex(0, 1, 0);
             upVec.multiplyByMatrix(ozrotate);
             camera.up = upVec;
@@ -121,12 +118,12 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
                     camera.lookAt.zT - camera.eye.zT));
             Vertex xaxis = norm(crossProduct(zaxis, norm(new Vertex(0, 1, 0))));
             Vertex yaxis = norm(crossProduct(xaxis, zaxis));
-            
+
             cameraTransformMatrix = new double[][]{
-                {xaxis.x, yaxis.x, -zaxis.x, 0},
-                {xaxis.y, yaxis.y, -zaxis.y, 0},
-                {xaxis.z, yaxis.z, -zaxis.z, 0},
-                {0, 0, 0, 1}
+                    {xaxis.x, yaxis.x, -zaxis.x, 0},
+                    {xaxis.y, yaxis.y, -zaxis.y, 0},
+                    {xaxis.z, yaxis.z, -zaxis.z, 0},
+                    {0, 0, 0, 1}
             };
             double[][] trans = Frame.multiplyMatrices(translationOfCamera, cameraTransformMatrix);
             cameraTransformMatrix = Frame.multiplyMatrices(cameraTransformMatrix, ozrotate);
@@ -177,35 +174,34 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
     public double computeDepth(Vertex v0, Vertex v1, Vertex v2, double w0, double w1, double w2) {
         return (w0 * v0.zT + w1 * v1.zT + w2 * v2.zT);
     }
-    
-    public Vertex computeLight(Triangle t, Illumination i, Vertex v)
-    {
+
+    public Vertex computeLight(Triangle t, Illumination i, Vertex v) {
         double diffuseR = 0, diffuseG = 0, diffuseB = 0;
         double ambientR = 0, ambientG = 0, ambientB = 0;
         double spectacularR = 0, spectacularG = 0, spectacularB = 0;
-        double ox = (t.v1.xT + t.v2.xT + t.v3.xT)/3;
-        double oy = (t.v1.yT + t.v2.yT + t.v3.yT)/3;
-        double oz = (t.v1.zT + t.v2.zT + t.v3.zT)/3;
+        double ox = (t.v1.xT + t.v2.xT + t.v3.xT) / 3;
+        double oy = (t.v1.yT + t.v2.yT + t.v3.yT) / 3;
+        double oz = (t.v1.zT + t.v2.zT + t.v3.zT) / 3;
         Vertex surfToLight = norm(new Vertex(v.x - ox, v.y - oy, v.z - oz));
         surfToLight.multiplyByScalar(-1);
         double r = surfToLight.length();
         t.computeNormal();
-            
+
         double n_dot_l = Math.max(0, Frame.dot(t.normal, surfToLight));
         r = fDist(r);
         r = 1;
         int type = t.getSurfaceType();
-        
+
         ambientR = surfaces[type].ka.x;
         ambientG = surfaces[type].ka.y;
         ambientB = surfaces[type].ka.z;
 
         if (n_dot_l > 0) {
-        diffuseR = surfaces[type].kd.x * n_dot_l * i.R * surfaces[type].R;
-        diffuseG = surfaces[type].kd.y * n_dot_l * i.G * surfaces[type].G;
-        diffuseB = surfaces[type].kd.z * n_dot_l * i.B * surfaces[type].B;
-        Vertex camMult = new Vertex(camera.eye.xTT, camera.eye.yTT, camera.eye.zTT);
-        camMult.multiplyByMatrix(scale);
+            diffuseR = surfaces[type].kd.x * n_dot_l * i.R * surfaces[type].R;
+            diffuseG = surfaces[type].kd.y * n_dot_l * i.G * surfaces[type].G;
+            diffuseB = surfaces[type].kd.z * n_dot_l * i.B * surfaces[type].B;
+            Vertex camMult = new Vertex(camera.eye.xTT, camera.eye.yTT, camera.eye.zTT);
+            camMult.multiplyByMatrix(scale);
             camMult.multiplyByMatrix(cameraTransformMatrix);
             camMult.multiplyByMatrix(perspectiveProjectionMatrix);
             camMult.x /= camMult.z;
@@ -215,25 +211,22 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
             Vertex cameraV = norm(new Vertex((camMult.x - ox), (camMult.y - oy),
                     (camMult.z - oz)));
             double scalar = 2 * Frame.dot(t.normal, surfToLight);
-            Vertex R = norm(new Vertex(scalar * t.normal.x - surfToLight.x , scalar * t.normal.y - surfToLight.y ,
-                    scalar * t.normal.z - surfToLight.z ));
+            Vertex R = norm(new Vertex(scalar * t.normal.x - surfToLight.x, scalar * t.normal.y - surfToLight.y,
+                    scalar * t.normal.z - surfToLight.z));
             R.multiplyByScalar(-1);
-            
-             double spec = Math.pow(Math.max(0, Frame.dot(R, cameraV)), surfaces[type].gp);
+
+            double spec = Math.pow(Math.max(0, Frame.dot(R, cameraV)), surfaces[type].gp);
 
             spectacularR = r * i.R * spec * surfaces[type].ks.x;
             spectacularG = r * i.G * spec * surfaces[type].ks.y;
             spectacularB = r * i.B * spec * surfaces[type].ks.z;
-            //return new Vertex(1,1,1);
-            
+
         }
-        //return new Vertex(0,0,0);
         return new Vertex(diffuseR + spectacularR + ambientR, diffuseG + spectacularG + ambientG, diffuseB + spectacularB + ambientB);
     }
-    
-    public double fDist(double r)
-    {
-        return Math.min(1, 1/(0.1 * r * r + 0.2 * r + 1));
+
+    public double fDist(double r) {
+        return Math.min(1, 1 / (0.1 * r * r + 0.2 * r + 1));
     }
 
     @Override
@@ -249,14 +242,7 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
                 Frame.vertexes[i].multiplyByMatrixT(viewportMatrix);
                 Frame.vertexes[i].multiplyByMatrixT(windowSizeScale);
             }
-            
-//            Vertex lightPos = new Vertex(Frame.lighting.x, Frame.lighting.y, Frame.lighting.z);
-//            lightPos.multiplyByMatrix(cameraTransformMatrix);
-//            lightPos.multiplyByMatrix(perspectiveProjectionMatrix);
-//            lightPos.x /= lightPos.z;
-//            lightPos.y /= lightPos.z;
-//            lightPos.multiplyByMatrix(viewportMatrix);
-//            lightPos.multiplyByMatrix(windowSizeScale);
+
             if (Frame.showSurfaces) {
                 zBufer = new double[screenHeight][screenWidth];
                 colorBuffer = new double[screenHeight][screenWidth];
@@ -316,39 +302,39 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
             ptk000.yT /= ptk000.zT;
             ptk000.multiplyByMatrixT(viewportMatrix);
             ptk000.multiplyByMatrixT(windowSizeScale);
-            
+
             ptk100.multiplyByMatrixT(cameraTransformMatrix);
             ptk100.multiplyByMatrixT(perspectiveProjectionMatrix);
             ptk100.xT /= ptk100.zT;
             ptk100.yT /= ptk100.zT;
             ptk100.multiplyByMatrixT(viewportMatrix);
             ptk100.multiplyByMatrixT(windowSizeScale);
-            
+
             ptk010.multiplyByMatrixT(cameraTransformMatrix);
             ptk010.multiplyByMatrixT(perspectiveProjectionMatrix);
             ptk010.xT /= ptk010.zT;
             ptk010.yT /= ptk010.zT;
             ptk010.multiplyByMatrixT(viewportMatrix);
             ptk010.multiplyByMatrixT(windowSizeScale);
-            
+
             ptk001.multiplyByMatrixT(cameraTransformMatrix);
             ptk001.multiplyByMatrixT(perspectiveProjectionMatrix);
             ptk001.xT /= ptk001.zT;
             ptk001.yT /= ptk001.zT;
             ptk001.multiplyByMatrixT(viewportMatrix);
             ptk001.multiplyByMatrixT(windowSizeScale);
-            
+
             g2d.setColor(Color.RED);
-            g2d.drawLine((int)ptk000.xT, (int)ptk000.yT, (int)ptk100.xT, (int)ptk100.yT);
+            g2d.drawLine((int) ptk000.xT, (int) ptk000.yT, (int) ptk100.xT, (int) ptk100.yT);
             g2d.setColor(Color.GREEN);
-            g2d.drawLine((int)ptk000.xT, (int)ptk000.yT, (int)ptk010.xT, (int)ptk010.yT);
+            g2d.drawLine((int) ptk000.xT, (int) ptk000.yT, (int) ptk010.xT, (int) ptk010.yT);
             g2d.setColor((Color.BLUE));
-            g2d.drawLine((int)ptk000.xT, (int)ptk000.yT, (int)ptk001.xT, (int)ptk001.yT);
-            
+            g2d.drawLine((int) ptk000.xT, (int) ptk000.yT, (int) ptk001.xT, (int) ptk001.yT);
+
             g2d.setColor((Color.black));
             g2d.drawLine(0, 0, screenWidth, 0);
             g2d.drawLine(0, 0, 0, screenHeight);
-            
+
             for (Vertex v : Frame.vertexes) {
                 v.xT = v.xTT;
                 v.yT = v.yTT;
@@ -382,23 +368,23 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
         screenWidth = getWidth();
         aspect = (double) screenWidth / (double) screenHeight;
         scale = new double[][]{
-            {0.5, 0, 0, 0},
-            {0, 0.5, 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1}
+                {0.5, 0, 0, 0},
+                {0, 0.5, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
         };
 
         windowSizeScale = new double[][]{
-            {screenWidth, 0, 0, 0},
-            {0, screenHeight, 0, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 1}
+                {screenWidth, 0, 0, 0},
+                {0, screenHeight, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
         };
         translateOfOrgin = new double[][]{
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {0.5, 0.5, 0, 1}
+                {1, 0, 0, 0},
+                {0, 1, 0, 0},
+                {0, 0, 1, 0},
+                {0.5, 0.5, 0, 1}
         };
         if (OptionPanel.objectLoaded) {
             perspectiveProjectionMatrix[0][0] = cot(camera.fov / 2) / aspect;
@@ -435,7 +421,4 @@ public class PerspectivePanel extends JPanel implements ComponentListener {
         result.z = v.z / length;
         return result;
     }
-    
-    
-
 }

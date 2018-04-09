@@ -29,12 +29,9 @@ public class Triangle {
         return surfaceType;
     }
     
-    public void computeNormal()
-    {
+    public void computeNormal() {
         normal = Frame.crossProduct(new Vertex(v1.xT - v3.xT, v1.yT -  v3.yT, v1.zT - v3.zT),
                 new Vertex(v2.xT - v3.xT, v2.yT - v3.yT, v2.zT - v3.zT));
         normal = Frame.norm(normal);
     }
-    
-    
 }
