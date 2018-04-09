@@ -8,6 +8,6 @@ Program includes whole 3D graphics rendering pipeline:
    - transforming models from world space to camera space
    - specifying clipping volume
    - mapping clipping volume to the 3D viewport
-   - back-face culling
+   - rasterization and back-face culling
    - removing hidden surfaces and Z-buffering
 
